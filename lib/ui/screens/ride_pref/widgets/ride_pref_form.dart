@@ -1,3 +1,4 @@
+import 'package:blabla/ui/screens/location_picker/location_picker_screen.dart';
 import 'package:blabla/ui/widgets/display/bla_divider.dart';
 import 'package:flutter/material.dart';
  
@@ -67,6 +68,25 @@ class _RidePrefFormState extends State<RidePrefForm> {
     });
   }
 
+  void _selectLocation({required bool isDeparture}) async {
+    final selectedLocation = await Navigator.push<Location>(
+      context,
+      MaterialPageRoute(builder: (_) => LocationPickerScreen(
+        selectedLocation: isDeparture ? departure : arrival
+      )),
+    );
+
+    if (selectedLocation == null) return;
+
+    setState(() {
+      if (isDeparture) {
+        departure = selectedLocation;
+      } else {
+        arrival = selectedLocation;
+      }
+    });
+  }
+
   // ----------------------------------
   // Compute the widgets rendering
   // ----------------------------------
@@ -124,7 +144,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
             children: [
               _buildInputField(
                 icon: Icons.trip_origin,
-                onPressed: () {},
+                onPressed: () => _selectLocation(isDeparture: true),
                 label: _departureLabelText,
                 textColor: _departureTextColor,
                 trailing: _canShowSwitchButton
@@ -139,7 +159,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
               
               _buildInputField(
                 icon: Icons.trip_origin,
-                onPressed: () {},
+                onPressed: () => _selectLocation(isDeparture: false),
                 label: _arrivalLabelText,
                 textColor: _arrivalTextColor,
               ),
