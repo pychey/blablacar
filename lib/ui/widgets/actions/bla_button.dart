@@ -6,14 +6,16 @@ class BlaButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isPrimary;
   final IconData? icon;
+  final BorderRadius borderRadius;
 
-  const BlaButton({
+  BlaButton({
     super.key,
     required this.label,
     required this.onPressed,
     this.isPrimary = true,
     this.icon,
-  });
+    BorderRadius? borderRadius
+  }) : borderRadius = borderRadius ?? BorderRadius.circular(BlaSpacings.radiusLarge);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class BlaButton extends StatelessWidget {
         elevation: 0,
         side: isPrimary ? null : BorderSide(color: BlaColors.iconLight),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(BlaSpacings.radiusLarge),
+          borderRadius: borderRadius,
         ),
         padding: EdgeInsets.all(BlaSpacings.l),
       ),
